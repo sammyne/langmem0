@@ -1,5 +1,3 @@
-import functools
-from inspect import signature
 from typing import Type
 
 from langchain.tools import ToolRuntime
@@ -13,6 +11,7 @@ class MultiplyInput(BaseModel):
 
     a: int = Field(description="第一个乘数")
     b: int = Field(description="第二个乘数")
+    
     runtime: ToolRuntime
     """ToolRuntime 对象，用于访问工具运行时的上下文信息。
    

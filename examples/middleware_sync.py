@@ -6,12 +6,15 @@ from langchain_openai import ChatOpenAI
 from dataclasses import dataclass
 
 from langmem0.middleware import Mem0Middleware
-from mem0 import Memory
 from langchain_huggingface import HuggingFaceEmbeddings
 from langgraph.checkpoint.memory import MemorySaver
+import logging
 
 dotenv.load_dotenv()
 
+
+# 设置日志级别为 INFO，并指定输出格式
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 @dataclass
 class Context:
@@ -76,20 +79,13 @@ config = {
     "embedder": embedder,
 }
 
-m = Memory.from_config(config)
-
 agent = create_agent(
     model,
-    middleware=[Mem0Middleware(m)],
+    middleware=[Mem0Middleware(config)],
     system_prompt="You are a helpful assistant.",
     context_schema=Context,
     checkpointer=MemorySaver(),
 )
-
-# r = agent.invoke(
-#     {"messages": [{"role": "user", "content": "请帮我计算 5 乘以 3 的结果"}]},
-#     context=Context(user_id="test"),
-# )
 
 config = {"configurable": {"thread_id": "thread-a"}}
 
@@ -99,7 +95,6 @@ response = agent.invoke(
     context=Context(user_id="test"),
 )
 
-# print(response["messages"][-1].content)
 for v in response["messages"]:
     v.pretty_print()
 
