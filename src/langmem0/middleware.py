@@ -78,8 +78,7 @@ class Mem0Middleware(AgentMiddleware):
             addon_ctx += f"\n- {v['memory']}"
 
         logger.debug(f"user-id={user_id}")
-        # logger.debug(f"add-on ctx\n{addon_ctx}")
-        print(f"add-on ctx\n{addon_ctx}")
+        logger.debug(f"add-on ctx\n{addon_ctx}")
         new_content = list(request.system_message.content_blocks) + [
             {"type": "text", "text": addon_ctx}
         ]
