@@ -1,28 +1,47 @@
-import os
+"""Example of using Mem0Middleware with async agent execution.
 
-import dotenv
+This script demonstrates how to set up and use the Mem0Middleware with an
+async LangChain agent for memory-enabled conversations.
+"""
 import asyncio
-from langchain.agents import create_agent
-from langchain_openai import ChatOpenAI
+import os
 from dataclasses import dataclass
 
-from langmem0.middleware import Mem0Middleware
+import dotenv
+from langchain.agents import create_agent
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
-import logging
+
+from langmem0.middleware import Mem0Middleware
+
 
 dotenv.load_dotenv()
 
 
-# 设置日志级别为 INFO，并指定输出格式
-# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# Set log level to INFO and specify output format
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+# )
+
 
 @dataclass
 class Context:
+    """Context dataclass for agent context."""
+
     user_id: str
 
 
 def new_openai_like(**kwargs) -> ChatOpenAI:
+    """Create a ChatOpenAI instance with default configuration.
+
+    Args:
+        **kwargs: Additional keyword arguments for ChatOpenAI.
+
+    Returns:
+        ChatOpenAI: Configured ChatOpenAI instance.
+    """
     return ChatOpenAI(
         api_key=os.environ["OPENAI_API_KEY"],
         base_url=os.environ["OPENAI_API_BASE_URL"],
@@ -57,7 +76,8 @@ embedding = HuggingFaceEmbeddings(model_name=embedding_model_name)
 #         "client": Chroma(
 #             collection_name="mem0",
 #             embedding_function=embedding,
-#             persist_directory="./chroma",  # Where to save data locally, remove if not necessary
+#             # Where to save data locally, remove if not necessary
+#             persist_directory="./chroma",
 #         )
 #     },
 # }
@@ -80,7 +100,9 @@ config = {
     "embedder": embedder,
 }
 
+
 async def main():
+    """Main async function to run the agent example."""
     global config
 
     agent = create_agent(
@@ -94,7 +116,14 @@ async def main():
     config = {"configurable": {"thread_id": "thread-a"}}
 
     response = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": "Know which display mode I prefer?"}]},
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "Know which display mode I prefer?",
+                }
+            ]
+        },
         config=config,
         context=Context(user_id="test"),
     )
@@ -103,9 +132,13 @@ async def main():
         v.pretty_print()
 
     r = await agent.ainvoke(
-        {"messages": [{"role": "user", "content": "dark. Remember that."}]},
-        # We will continue the conversation (thread-a) by using the config with
-        # the same thread_id
+        {
+            "messages": [
+                {"role": "user", "content": "dark. Remember that."}
+            ]
+        },
+        # We will continue the conversation (thread-a) by using the config
+        # with the same thread_id
         config=config,
         context=Context(user_id="test"),
     )
@@ -116,14 +149,17 @@ async def main():
 
     # New thread = new conversation!
     new_config = {"configurable": {"thread_id": "thread-b"}}
-    # The agent will only be able to recall
-    # whatever it explicitly saved using the manage_memories tool
+    # The agent will only be able to recall whatever it explicitly saved
+    # using the manage_memories tool
     response = await agent.ainvoke(
         {
             "messages": [
                 {
                     "role": "user",
-                    "content": "Hey there. Do you remember me? What are my preferences?",
+                    "content": (
+                        "Hey there. Do you remember me? "
+                        "What are my preferences?"
+                    ),
                 }
             ]
         },
@@ -132,9 +168,10 @@ async def main():
     )
 
     # print(response["messages"][-1].content)
-    print('*' * 8)
+    print("*" * 8)
     for v in response["messages"]:
         v.pretty_print()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

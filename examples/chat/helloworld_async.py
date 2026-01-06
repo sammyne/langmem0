@@ -1,18 +1,23 @@
-"""样例代码参考 https://docs.mem0.ai/open-source/features/openai_compatibility
-"""
-from langmem0 import ChatOpenAI
-import os
-import dotenv
-from langchain_huggingface import HuggingFaceEmbeddings
+"""Sample code reference: https://docs.mem0.ai/open-source/features/openai_compatibility."""
+
 import asyncio
+import os
+
+import dotenv
+
+from langmem0 import ChatOpenAI
+
 
 async def main():
+    """Main async function to run the chat example."""
     dotenv.load_dotenv()
 
-    # 设置日志级别为 INFO，并指定输出格式
+    # Set log level to INFO and specify output format
     # import logging
-    # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
+    # logging.basicConfig(
+    #     level=logging.DEBUG,
+    #     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    # )
 
     # https://github.com/mem0ai/mem0/blob/v1.0.0/mem0/configs/llms/openai.py#L6
     llm = {
@@ -24,7 +29,6 @@ async def main():
             "openai_base_url": os.environ["OPENAI_API_BASE_URL"],
         },
     }
-
 
     embedding_model_name = "sentence-transformers/all-mpnet-base-v2"
     # model_name='BAAI/bge-small-en-v1.5'
@@ -38,7 +42,8 @@ async def main():
     #         "client": Chroma(
     #             collection_name="mem0",
     #             embedding_function=embedding,
-    #             persist_directory="./chroma",  # Where to save data locally, remove if not necessary
+    #             # Where to save data locally, remove if not necessary
+    #             persist_directory="./chroma",
     #         )
     #     },
     # }
@@ -62,35 +67,43 @@ async def main():
     }
 
     model = ChatOpenAI(
-            api_key=os.environ["OPENAI_API_KEY"],
-            base_url=os.environ["OPENAI_API_BASE_URL"],
-            model=os.environ["OPENAI_MODEL"],
-            user_id="alice",
-            mem0=config,
-        )
-    
-
+        api_key=os.environ["OPENAI_API_KEY"],
+        base_url=os.environ["OPENAI_API_BASE_URL"],
+        model=os.environ["OPENAI_MODEL"],
+        user_id="alice",
+        mem0=config,
+    )
 
     # Store preferences
-    _r = await model.ainvoke("I love Indian food but I'm allergic to cheese.")
+    _r = await model.ainvoke(
+        "I love Indian food but I'm allergic to cheese."
+    )
 
     # Later conversation reuses the memory
-    r = await model.ainvoke(
-        "Suggest dinner options in San Francisco."
-    )
+    r = await model.ainvoke("Suggest dinner options in San Francisco.")
 
     r.pretty_print()
 
     # Sample output
-    # ================================== Ai Message ==================================
+    # ================================== Ai Message
+    # ==================================
     #
-    # Since you love Indian food and are allergic to cheese, here are some dinner options for you in San Francisco:
+    # Since you love Indian food and are allergic to cheese, here are some
+    # dinner options for you in San Francisco:
     #
-    # *   **Indian Cuisine:** This is a great choice for you. Many dishes are naturally cheese-free. Look for tandoori items, curries made with coconut or yogurt bases (instead of cream), and dal dishes. Just be sure to confirm there is no paneer (Indian cheese) in your order.
+    # *   **Indian Cuisine:** This is a great choice for you. Many dishes are
+    # naturally cheese-free. Look for tandoori items, curries made with coconut
+    # or yogurt bases (instead of cream), and dal dishes. Just be sure to
+    # confirm there is no paneer (Indian cheese) in your order.
     #
-    # *   **Thai or Vietnamese Food:** These cuisines rarely use cheese. You can enjoy a variety of curries, pho, stir-fries, and fresh spring rolls without worrying about your allergy.
+    # *   **Thai or Vietnamese Food:** These cuisines rarely use cheese. You
+    # can enjoy a variety of curries, pho, stir-fries, and fresh spring rolls
+    # without worrying about your allergy.
     #
-    # *   **Mediterranean / Middle Eastern Food:** Excellent for a cheese-free meal. You can have grilled kebabs, falafel, hummus, and salads. Just make sure to request that they hold the feta cheese.
+    # *   **Mediterranean / Middle Eastern Food:** Excellent for a cheese-free
+    # meal. You can have grilled kebabs, falafel, hummus, and salads. Just
+    # make sure to request that they hold the feta cheese.
+
 
 if __name__ == "__main__":
     asyncio.run(main())
