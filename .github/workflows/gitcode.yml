@@ -22,8 +22,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "sammyne"
+          git config --global user.email "xiangmin-li@qq.com"
 
       - name: Setup SSH for GitCode
         run: |
@@ -31,6 +31,11 @@ jobs:
           echo "${{ secrets.GITCODE_SSH_PRIVATE_KEY }}" > ~/.ssh/gitcode_key
           chmod 600 ~/.ssh/gitcode_key
           ssh-keyscan -H gitcode.com >> ~/.ssh/known_hosts
+
+      - name: Verify SSH connection to GitCode
+        run: |
+          echo "Testing SSH connection to gitcode.com..."
+          ssh -i ~/.ssh/gitcode_key -T git@gitcode.com || echo "SSH connection test completed"
 
       - name: Add GitCode remote
         run: |
