@@ -1,0 +1,14 @@
+[project]
+name = "examples"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "faiss-cpu>=1.13.2",
+    "langchain-huggingface~=1.0",
+    "langgraph>=1,<2",
+    "langgraph-checkpoint>=3.0.1",
+    "python-dotenv>=1.2.1",
+    "sentence-transformers>=5.2.0",
+]
