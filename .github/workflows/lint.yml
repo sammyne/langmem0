@@ -1,0 +1,35 @@
+name: Lint with Ruff
+
+on:
+  # 在推送到 main 分支时触发
+  push:
+    branches:
+      - main
+  # 在创建或更新 Pull Request 时触发
+  pull_request:
+    branches:
+      - main
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Check code style with Ruff
+        run: uv run ruff check
+
+      - name: Check formatting with Ruff
+        run: uv run ruff format --check
