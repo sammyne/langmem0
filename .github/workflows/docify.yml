@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - main
+    # 只有以下路径变更时才触发
+    paths:
+      - "examples/**"
+      - "src/**"
+      - "pyproject.toml"
+      - "ruff.toml"
   # 允许手动触发
   workflow_dispatch:
 
