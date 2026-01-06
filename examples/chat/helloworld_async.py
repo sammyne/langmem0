@@ -83,8 +83,7 @@ async def main():
     r.pretty_print()
 
     # Sample output
-    # ================================== Ai Message
-    # ==================================
+    # ================================== Ai Message ================================== # noqa: E501
     #
     # Since you love Indian food and are allergic to cheese, here are some
     # dinner options for you in San Francisco:
