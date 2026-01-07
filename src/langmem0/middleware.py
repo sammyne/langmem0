@@ -54,7 +54,7 @@ class Mem0Middleware(AgentMiddleware):
         Returns:
             None: Returns None if user ID is not found.
         """
-        if not (user_id := extract_user_id(runtime)):
+        if not (user_id := _extract_user_id(runtime)):
             return None
 
         interaction = [_convert_message_to_dict(v) for v in state["messages"]]
@@ -75,7 +75,7 @@ class Mem0Middleware(AgentMiddleware):
         Returns:
             None: Returns None if user ID is not found.
         """
-        user_id = extract_user_id(runtime)
+        user_id = _extract_user_id(runtime)
         if not user_id:
             return None
 
@@ -103,7 +103,7 @@ class Mem0Middleware(AgentMiddleware):
         if not isinstance(request.messages[-1], HumanMessage):
             return await handler(request)
 
-        if not (user_id := extract_user_id(request.runtime)):
+        if not (user_id := _extract_user_id(request.runtime)):
             return await handler(request)
 
         r = await self.am0.search(
@@ -150,7 +150,7 @@ class Mem0Middleware(AgentMiddleware):
         if not isinstance(request.messages[-1], HumanMessage):
             return handler(request)
 
-        user_id = extract_user_id(request.runtime)
+        user_id = _extract_user_id(request.runtime)
         if not user_id:
             return handler(request)
 
@@ -178,7 +178,7 @@ class Mem0Middleware(AgentMiddleware):
         return handler(request.override(system_message=new_system_message))
 
 
-def extract_user_id(rt: Runtime) -> str | None:
+def _extract_user_id(rt: Runtime) -> str | None:
     """Extracts the user ID from the runtime context.
 
     Args:

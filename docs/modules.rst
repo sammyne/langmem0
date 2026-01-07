@@ -5,8 +5,3 @@ langmem0 Modules
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. automodule:: langmem0.middleware
-   :members:
-   :undoc-members:
-   :show-inheritance:
