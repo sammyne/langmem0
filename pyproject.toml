@@ -21,6 +21,7 @@ members = [
 
 [dependency-groups]
 dev = [
+    "autodoc-pydantic>=2.2.0",
     "ruff>=0.14.10",
     "sphinx>=9.1.0",
     "sphinx-autodoc-typehints>=3.6.2",

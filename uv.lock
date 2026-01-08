@@ -43,6 +43,19 @@ wheels = [
 ]
 
 [[package]]
+name = "autodoc-pydantic"
+version = "2.2.0"
+source = { registry = "https://mirrors.aliyun.com/pypi/simple/" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+    { name = "sphinx" },
+]
+wheels = [
+    { url = "https://mirrors.aliyun.com/pypi/packages/7b/df/87120e2195f08d760bc5cf8a31cfa2381a6887517aa89453b23f1ae3354f/autodoc_pydantic-2.2.0-py3-none-any.whl", hash = "sha256:8c6a36fbf6ed2700ea9c6d21ea76ad541b621fbdf16b5a80ee04673548af4d95" },
+]
+
+[[package]]
 name = "babel"
 version = "2.17.0"
 source = { registry = "https://mirrors.aliyun.com/pypi/simple/" }
@@ -623,6 +636,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "autodoc-pydantic" },
     { name = "ruff" },
     { name = "sphinx" },
     { name = "sphinx-autodoc-typehints" },
@@ -638,6 +652,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "autodoc-pydantic", specifier = ">=2.2.0" },
     { name = "ruff", specifier = ">=0.14.10" },
     { name = "sphinx", specifier = ">=9.1.0" },
     { name = "sphinx-autodoc-typehints", specifier = ">=3.6.2" },
@@ -1138,6 +1153,20 @@ wheels = [
     { url = "https://mirrors.aliyun.com/pypi/packages/5c/96/5fb7d8c3c17bc8c62fdb031c47d77a1af698f1d7a406b0f79aaa1338f9ad/pydantic_core-2.41.5-cp314-cp314t-win32.whl", hash = "sha256:b4ececa40ac28afa90871c2cc2b9ffd2ff0bf749380fbdf57d165fd23da353aa" },
     { url = "https://mirrors.aliyun.com/pypi/packages/22/ed/182129d83032702912c2e2d8bbe33c036f342cc735737064668585dac28f/pydantic_core-2.41.5-cp314-cp314t-win_amd64.whl", hash = "sha256:80aa89cad80b32a912a65332f64a4450ed00966111b6615ca6816153d3585a8c" },
     { url = "https://mirrors.aliyun.com/pypi/packages/9f/ed/068e41660b832bb0b1aa5b58011dea2a3fe0ba7861ff38c4d4904c1c1a99/pydantic_core-2.41.5-cp314-cp314t-win_arm64.whl", hash = "sha256:35b44f37a3199f771c3eaa53051bc8a70cd7b54f333531c59e29fd4db5d15008" },
+]
+
+[[package]]
+name = "pydantic-settings"
+version = "2.12.0"
+source = { registry = "https://mirrors.aliyun.com/pypi/simple/" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dotenv" },
+    { name = "typing-inspection" },
+]
+sdist = { url = "https://mirrors.aliyun.com/pypi/packages/43/4b/ac7e0aae12027748076d72a8764ff1c9d82ca75a7a52622e67ed3f765c54/pydantic_settings-2.12.0.tar.gz", hash = "sha256:005538ef951e3c2a68e1c08b292b5f2e71490def8589d4221b95dab00dafcfd0" }
+wheels = [
+    { url = "https://mirrors.aliyun.com/pypi/packages/c1/60/5d4751ba3f4a40a6891f24eec885f51afd78d208498268c734e256fb13c4/pydantic_settings-2.12.0-py3-none-any.whl", hash = "sha256:fddb9fd99a5b18da837b29710391e945b1e30c135477f484084ee513adb93809" },
 ]
 
 [[package]]
