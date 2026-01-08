@@ -20,11 +20,12 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.autodoc_pydantic",
 ]
 
 autodoc_default_options = {
     "members": True,
-    "member-order": "bysource",
+    "member-order": "alphabetical",
     "special-members": "__init__",
     "undoc-members": True,
     "exclude-members": "__weakref__",
