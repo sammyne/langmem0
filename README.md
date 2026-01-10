@@ -1,14 +1,30 @@
 # LangMem0
 
+📚 [Documentation](https://sammyne.github.io/langmem0/)
+
+[![PyPI version](https://badge.fury.io/py/langmem0.svg)](https://pypi.org/project/langmem0/)
 ![Python Version](https://img.shields.io/badge/python-3.13+-blue.svg)
-![Version](https://img.shields.io/badge/version-0.1.0-green.svg)
 [![Lint with Ruff](https://github.com/sammyne/langmem0/actions/workflows/lint.yml/badge.svg)](https://github.com/sammyne/langmem0/actions/workflows/lint.yml)
 
-## Environment
+## Installation
+
+Install via `uv`
+
+```bash
+uv add langmem0
+```
+
+Install via `pip`
+
+```bash
+pip install langmem0
+```
+
+## Examples quickstart
+
+### 0. Environment
 
 - uv >= 0.9
-
-## Quickstart
 
 ### 1. Clone the repository
 
@@ -44,9 +60,7 @@ Use `Mem0Middleware` to enable memory in LangChain agent conversations. This app
 ```bash
 # Synchronous example
 uv run examples/middleware/helloworld.py
-```
 
-```bash
 # Asynchronous example
 uv run examples/middleware/helloworld_async.py
 ```
