@@ -27,6 +27,31 @@ jobs:
           enable-cache: true
           python-version: 3.13
 
+      - name: Validate tag format
+        uses: matt-usurp/validate-semver@v2
+        with:
+          version_string: ${{ github.ref_name }}
+
+      - name: Verify tag matches pyproject.toml version
+        run: |
+          tag="${{ github.ref_name }}"
+          # Remove 'v' prefix if present
+          tag_version="${tag#v}"
+          project_version=$(grep -Po '(?<=^version = ")[^"]*' pyproject.toml)
+          if [ "$tag_version" != "$project_version" ]; then
+            echo "Error: Tag version ($tag_version) does not match pyproject.toml ($project_version)"
+            exit 1
+          fi
+          echo "Version matches: $tag_version"
+
+      - name: Verify tag is on main branch
+        run: |
+          git fetch origin main
+          if ! git branch --contains "${{ github.ref }}" --remotes | grep -q "origin/main"; then
+            echo "Error: Tag ${{ github.ref_name }} is not on main branch"
+            exit 1
+          fi
+
       - name: Build
         run: uv build
 
